@@ -1,8 +1,43 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import { productController } from './product.controller';
+import { upload } from '../../utilities/SendImageToCloudinary';
+
 const router = express.Router();
 
+const errorHandler = (
+  err: any,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  //console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+};
+
 router.get('/getAllProduct', productController.getAllProductFromDb);
+
+router.post(
+  '/create-product',
+  upload.single('image'),
+  (req: Request, res: Response, next: NextFunction) => {
+    // console.log(req.body);
+    //console.log(req.file;)
+    next();
+  },
+  productController.createProduct,
+);
+
 router.get('/getSingleProduct/:id', productController.getSingleProduct);
+
+router.delete('/delete-product/:id', productController.deleteProduct);
+
+router.patch('/update-product/:id', productController.updateProduct);
+
+router.delete(
+  '/update-cart-product',
+  productController.deleteProductAfterOrder,
+);
+
+router.use(errorHandler);
 
 export const productRouter = router;
