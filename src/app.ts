@@ -11,7 +11,6 @@ app.use(cors());
 
 app.use('/api/v1', productRouter);
 app.use('/api/v1', gatewayRouter);
-
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
 });

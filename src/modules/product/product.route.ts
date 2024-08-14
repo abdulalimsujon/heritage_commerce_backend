@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import express, { NextFunction, Request, Response } from 'express';
 import { productController } from './product.controller';
 import { upload } from '../../utilities/SendImageToCloudinary';
@@ -28,6 +30,10 @@ router.post(
 );
 
 router.get('/getSingleProduct/:id', productController.getSingleProduct);
+
+// router.get('/get-products', productController.getproductWithPrice);
+
+router.get('/get-products', productController.getAllProductFromDb);
 
 router.delete('/delete-product/:id', productController.deleteProduct);
 

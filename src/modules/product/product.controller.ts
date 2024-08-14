@@ -16,9 +16,23 @@ const createProduct = catchAsync(async (req, res) => {
     data: result,
   });
 });
+//-----------------get product by name-------------------------------->
+const getProductBySearch = catchAsync(async (req, res) => {
+  const query = req.query;
+
+  const result = await productService.getProductBySearch(query);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: ' product retrived  successfully',
+    data: result,
+  });
+});
 
 const getAllProductFromDb = catchAsync(async (req, res) => {
-  const result = await productService.getAllProduct();
+  const searchTerm = req.query;
+
+  const result = await productService.getAllProduct(searchTerm);
 
   sendResponse(res, {
     success: true,
@@ -40,6 +54,20 @@ const getSingleProduct = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getproductWithPrice = catchAsync(async (req, res) => {
+  const { price } = req.query;
+
+  const convert = Number(price);
+
+  const result = await productService.getProductWithPrice(convert);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: ' product retrived  successfully',
+    data: result,
+  });
+});
 
 const deleteProduct = catchAsync(async (req, res) => {
   const id = req.body;
@@ -52,8 +80,9 @@ const deleteProduct = catchAsync(async (req, res) => {
   });
 });
 const deleteProductAfterOrder = catchAsync(async (req, res) => {
-  const cartIds = req.body.cartIds;
-  const result = await productService.deleteProductAfterOrderFromDb(cartIds);
+  const reqbody = req.body.cartInfo;
+
+  const result = await productService.deleteProductAfterOrderFromDb(reqbody);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -79,5 +108,7 @@ export const productController = {
   createProduct,
   deleteProduct,
   updateProduct,
+  getProductBySearch,
   deleteProductAfterOrder,
+  getproductWithPrice,
 };
