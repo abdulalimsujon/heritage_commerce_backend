@@ -54,20 +54,20 @@ const getSingleProduct = catchAsync(async (req, res) => {
     data: result,
   });
 });
-const getproductWithPrice = catchAsync(async (req, res) => {
-  const { price } = req.query;
+// const getproductWithPrice = catchAsync(async (req, res) => {
+//   const { price } = req.query;
 
-  const convert = Number(price);
+//   const convert = Number(price);
 
-  const result = await productService.getProductWithPrice(convert);
+//   const result = await productService.getProductWithPrice(convert);
 
-  sendResponse(res, {
-    success: true,
-    statusCode: httpStatus.OK,
-    message: ' product retrived  successfully',
-    data: result,
-  });
-});
+//   sendResponse(res, {
+//     success: true,
+//     statusCode: httpStatus.OK,
+//     message: ' product retrived  successfully',
+//     data: result,
+//   });
+// });
 
 const deleteProduct = catchAsync(async (req, res) => {
   const id = req.body;
@@ -110,5 +110,5 @@ export const productController = {
   updateProduct,
   getProductBySearch,
   deleteProductAfterOrder,
-  getproductWithPrice,
+  // getproductWithPrice,
 };
