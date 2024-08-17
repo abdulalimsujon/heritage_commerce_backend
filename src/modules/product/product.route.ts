@@ -31,13 +31,12 @@ router.post(
 
 router.get('/getSingleProduct/:id', productController.getSingleProduct);
 
-// router.get('/get-products', productController.getproductWithPrice);
-
 router.get('/get-products', productController.getAllProductFromDb);
 
 router.delete('/delete-product/:id', productController.deleteProduct);
 
 router.patch('/update-product/:id', productController.updateProduct);
+router.get('/latest-products', productController.getLastestProducts);
 
 router.delete(
   '/update-cart-product',

@@ -20,21 +20,6 @@ const createProductIntoDb = async (product: IProduct, file) => {
   return result;
 };
 
-const getProductBySearch = async (query: Record<string, unknown>) => {
-  const productQuery = new QueryBuilder(Product.find(), query)
-    .search(['name', 'category', 'brand'])
-    .filter()
-    .productWithPriceRange()
-    .sort()
-    .getFields()
-    .paginate()
-    .fields();
-
-  const result = await productQuery.modelQuery;
-  const meta = await productQuery.countTotal();
-  return result;
-};
-
 const deleteProductAfterOrderFromDb = async (
   cardInfo: { id: string; name: string; quantity: number }[],
 ) => {
@@ -48,7 +33,6 @@ const deleteProductAfterOrderFromDb = async (
 };
 
 const getAllProduct = async (query: Record<string, unknown>) => {
-  console.log('i am here', query);
   const productQuery = new QueryBuilder(Product.find(), query)
     .search(['name', 'category', 'brand'])
     .filter()
@@ -59,7 +43,6 @@ const getAllProduct = async (query: Record<string, unknown>) => {
     .fields();
 
   const result = await productQuery.modelQuery;
-  console.log('the result', result);
   const meta = await productQuery.countTotal();
   return {
     result,
@@ -81,16 +64,10 @@ const updateProductIntoDb = async (body: Partial<IProduct>, id: string) => {
   const result = await Product.findByIdAndUpdate(id, body);
   return result;
 };
-
-// const getProductWithPrice = async (price: number) => {
-//   // Expecting 'price' in query
-
-//   const result = await Product.find({
-//     $and: [{ price: { $gt: 0 } }, { price: { $lt: price } }],
-//   });
-
-//   return result.length;
-// };
+const getLatestProducts = async () => {
+  const result = await Product.find().sort({ createdAt: -1 }).limit(8);
+  return result;
+};
 
 export const productService = {
   getAllProduct,
@@ -98,7 +75,6 @@ export const productService = {
   createProductIntoDb,
   deleteProduct,
   updateProductIntoDb,
+  getLatestProducts,
   deleteProductAfterOrderFromDb,
-  getProductBySearch,
-  // getProductWithPrice,
 };

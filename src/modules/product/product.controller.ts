@@ -16,18 +16,6 @@ const createProduct = catchAsync(async (req, res) => {
     data: result,
   });
 });
-//-----------------get product by name-------------------------------->
-const getProductBySearch = catchAsync(async (req, res) => {
-  const query = req.query;
-
-  const result = await productService.getProductBySearch(query);
-  sendResponse(res, {
-    success: true,
-    statusCode: httpStatus.OK,
-    message: ' product retrived  successfully',
-    data: result,
-  });
-});
 
 const getAllProductFromDb = catchAsync(async (req, res) => {
   const searchTerm = req.query;
@@ -54,20 +42,6 @@ const getSingleProduct = catchAsync(async (req, res) => {
     data: result,
   });
 });
-// const getproductWithPrice = catchAsync(async (req, res) => {
-//   const { price } = req.query;
-
-//   const convert = Number(price);
-
-//   const result = await productService.getProductWithPrice(convert);
-
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: httpStatus.OK,
-//     message: ' product retrived  successfully',
-//     data: result,
-//   });
-// });
 
 const deleteProduct = catchAsync(async (req, res) => {
   const id = req.body;
@@ -102,13 +76,22 @@ const updateProduct = catchAsync(async (req, res) => {
   });
 });
 
+const getLastestProducts = catchAsync(async (req, res) => {
+  const result = await productService.getLatestProducts();
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Product is updated Successfully',
+    data: result,
+  });
+});
+
 export const productController = {
   getSingleProduct,
   getAllProductFromDb,
   createProduct,
   deleteProduct,
   updateProduct,
-  getProductBySearch,
+  getLastestProducts,
   deleteProductAfterOrder,
-  // getproductWithPrice,
 };
