@@ -1,11 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import QueryBuilder from '../../app/builder/QueryBuilder';
+import QueryBuilder from '../../builder/QueryBuilder';
 import { sendImageToCloudinary } from '../../utilities/SendImageToCloudinary';
 import { IProduct } from './product.interface';
 import { Product } from './product.model';
+import { Express } from 'express';
 
-const createProductIntoDb = async (product: IProduct, file) => {
+const createProductIntoDb = async (
+  product: IProduct,
+  file: Express.Multer.File & { path?: string },
+) => {
   if (file) {
     const imageName = `${Math.floor(100 + Math.random() * 900)}`;
     const path = file?.path;

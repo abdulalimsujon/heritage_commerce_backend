@@ -1,5 +1,5 @@
 import Stripe from 'stripe';
-import config from '../../app/config';
+import config from '../../config';
 
 const stripe = new Stripe(config.stipe_private_key as string);
 

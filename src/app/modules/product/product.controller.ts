@@ -2,12 +2,16 @@ import catchAsync from '../../utilities/catchAsync';
 import sendResponse from '../../utilities/sendResponse';
 import { productService } from './product.service';
 import httpStatus from 'http-status';
+import { Express } from 'express';
 
 const createProduct = catchAsync(async (req, res) => {
-  const data = req.body;
+  const reqBody = req.body;
   const file = req.file;
 
-  const result = await productService.createProductIntoDb(data, file);
+  const result = await productService.createProductIntoDb(
+    reqBody,
+    file as Express.Multer.File,
+  );
 
   sendResponse(res, {
     success: true,

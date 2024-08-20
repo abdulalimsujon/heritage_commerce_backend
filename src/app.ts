@@ -1,8 +1,8 @@
 import { Application, Request, Response } from 'express';
 import cors from 'cors';
 import express from 'express';
-import { productRouter } from './modules/product/product.route';
-import { gatewayRouter } from './modules/paymentGateway/gateway.route';
+import { productRouter } from './app/modules/product/product.route';
+import { gatewayRouter } from './app/modules/paymentGateway/gateway.route';
 
 const app: Application = express();
 

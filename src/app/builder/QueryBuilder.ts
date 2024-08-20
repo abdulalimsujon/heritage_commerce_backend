@@ -110,9 +110,10 @@ class QueryBuilder<T> {
   }
 
   async countTotal() {
-    const total = await this.modelQuery.clone().countDocuments();
-    const page = Number(this.query.page) || 1;
-    const limit = Number(this.query.limit) || 6; // Consistent default limit
+    const totalQueries = this.modelQuery.getQuery();
+    const total = await this.modelQuery.model.countDocuments(totalQueries);
+    const page = Number(this?.query?.page) || 1;
+    const limit = Number(this?.query?.limit) || 8;
     const totalPage = Math.ceil(total / limit);
 
     return {
