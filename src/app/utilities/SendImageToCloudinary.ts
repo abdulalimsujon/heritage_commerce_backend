@@ -22,7 +22,7 @@ export const sendImageToCloudinary = (imageName: string, path: string) => {
 
         fs.unlink(path, (err) => {
           if (err) {
-            //    console.error(err);
+            console.error(err);
             return;
           }
           // console.log('File deleted successfully');

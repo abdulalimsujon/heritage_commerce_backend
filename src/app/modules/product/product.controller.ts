@@ -7,6 +7,8 @@ import { Express } from 'express';
 const createProduct = catchAsync(async (req, res) => {
   const reqBody = req.body;
   const file = req.file;
+  // console.log('product info', reqBody);
+  // console.log('product file', file);
 
   const result = await productService.createProductIntoDb(
     reqBody,
@@ -38,6 +40,16 @@ const getSingleProduct = catchAsync(async (req, res) => {
   const { id } = req.params;
 
   const result = await productService.getSingleProduct(id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: ' product retrived  successfully',
+    data: result,
+  });
+});
+const getProducts = catchAsync(async (req, res) => {
+  const result = await productService.getProducts();
 
   sendResponse(res, {
     success: true,
@@ -95,6 +107,7 @@ export const productController = {
   getAllProductFromDb,
   createProduct,
   deleteProduct,
+  getProducts,
   updateProduct,
   getLastestProducts,
   deleteProductAfterOrder,

@@ -19,6 +19,10 @@ const createProductIntoDb = async (
 
     product.image = secure_url as string;
   }
+  if (!file) {
+    product.image = 'no image';
+  }
+
   const result = await Product.create(product);
 
   return result;
@@ -54,6 +58,11 @@ const getAllProduct = async (query: Record<string, unknown>) => {
   };
 };
 
+const getProducts = async () => {
+  const result = await Product.find({});
+  return result;
+};
+
 const getSingleProduct = async (id: string) => {
   const result = await Product.findById({ _id: id });
 
@@ -80,5 +89,6 @@ export const productService = {
   deleteProduct,
   updateProductIntoDb,
   getLatestProducts,
+  getProducts,
   deleteProductAfterOrderFromDb,
 };

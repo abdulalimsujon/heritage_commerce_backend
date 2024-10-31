@@ -13,7 +13,7 @@ const errorHandler = (
   next: NextFunction,
 ) => {
   //console.error(err.stack);
-  res.status(500).send('Something went wrong!');
+  res.status(500).send('Something went wrong!!!');
 };
 
 router.get('/getAllProduct', productController.getAllProductFromDb);
@@ -22,8 +22,8 @@ router.post(
   '/create-product',
   upload.single('image'),
   (req: Request, res: Response, next: NextFunction) => {
-    // console.log(req.body);
-    //console.log(req.file;)
+    console.log('ff', req.body);
+    console.log(req.file);
     next();
   },
   productController.createProduct,
@@ -32,6 +32,7 @@ router.post(
 router.get('/getSingleProduct/:id', productController.getSingleProduct);
 
 router.get('/get-products', productController.getAllProductFromDb);
+router.get('/all-product', productController.getProducts);
 
 router.delete('/delete-product/:id', productController.deleteProduct);
 
