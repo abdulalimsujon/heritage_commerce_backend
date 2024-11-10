@@ -24,11 +24,6 @@ router.post(
 
   (req: Request, res: Response, next: NextFunction) => {
     try {
-      // Parse req.body.data if it exists and is a string
-      if (req.body.data) {
-        req.body = JSON.parse(req.body.data);
-      }
-
       next();
     } catch (error) {
       next(error); // Pass the error to the error handler if parsing fails
@@ -56,6 +51,7 @@ router.patch(
   userController.updateUser,
 );
 router.get('/', userController.getAlluser);
+router.delete('/delete-user/:id', userController.deleteUserIntoDb);
 router.post('/login', userController.loginUser);
 
 export const userRouter = router;

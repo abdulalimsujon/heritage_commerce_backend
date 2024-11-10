@@ -28,42 +28,49 @@ const createUserIntoDb = async (
 
   return result;
 };
-export type TLoginUser = {
+
+// Define the TLoginUser type
+type TLoginUser = {
   email: string;
   password: string;
 };
+
 const loginUser = async (payload: TLoginUser) => {
-  // checking if the user is exist
-  const user = await User.find({ email: payload?.email });
+  // Check if the user exists by their email
+  const user = await User.findOne({
+    email: payload.email,
+    password: payload.password,
+  });
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found!');
   }
-  console.log(user);
-  //create token and sent to the  client
 
+  // Prepare the payload for JWT creation
   const jwtPayload = {
     _id: user._id,
     name: user.name,
     email: user.email,
-    mobileNumber: user.mobile,
+    mobile: user.mobile,
     role: user.role,
     status: user.status,
   };
 
+  // Create access and refresh tokens
   const accessToken = createToken(
-    jwtPayload,
+    jwtPayload as Tuser,
     config.jwt_access_token as string,
     config.jwt_expires_in as string,
   );
 
   const refreshToken = createToken(
-    jwtPayload,
+    jwtPayload as Tuser,
     config.jwt_refresh_secret as string,
     config.jwt_refresh_expires_in as string,
   );
 
   return {
+    jwtPayload,
     accessToken,
     refreshToken,
   };
@@ -83,9 +90,6 @@ const updateUserIntoDb = async (
 
     user.image = secure_url as string;
   }
-  if (!file) {
-    return;
-  }
 
   const result = await User.findByIdAndUpdate(id, user);
   return result;
@@ -96,9 +100,15 @@ const getAlluserFromDb = async () => {
   return result;
 };
 
+const deleteUserIntoDb = async (id: string) => {
+  const result = await User.findByIdAndDelete({ _id: id });
+  return result;
+};
+
 export const userServices = {
   createUserIntoDb,
   getAlluserFromDb,
   updateUserIntoDb,
+  deleteUserIntoDb,
   loginUser,
 };

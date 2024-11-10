@@ -22,8 +22,6 @@ router.post(
   '/create-product',
   upload.single('image'),
   (req: Request, res: Response, next: NextFunction) => {
-    console.log('ff', req.body);
-    console.log(req.file);
     next();
   },
   productController.createProduct,
@@ -32,11 +30,23 @@ router.post(
 router.get('/getSingleProduct/:id', productController.getSingleProduct);
 
 router.get('/get-products', productController.getAllProductFromDb);
-router.get('/all-product', productController.getProducts);
 
 router.delete('/delete-product/:id', productController.deleteProduct);
 
-router.patch('/update-product/:id', productController.updateProduct);
+router.patch(
+  '/update-product/:id',
+  upload.single('image'),
+  (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // Parse req.body.data if it exists and is a string
+      console.log('this is file', req.file);
+      next();
+    } catch (error) {
+      next(error); // Pass the error to the error handler if parsing fails
+    }
+  },
+  productController.updateProduct,
+);
 router.get('/latest-products', productController.getLastestProducts);
 
 router.delete(

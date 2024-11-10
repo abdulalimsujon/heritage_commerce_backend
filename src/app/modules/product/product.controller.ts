@@ -48,20 +48,10 @@ const getSingleProduct = catchAsync(async (req, res) => {
     data: result,
   });
 });
-const getProducts = catchAsync(async (req, res) => {
-  const result = await productService.getProducts();
-
-  sendResponse(res, {
-    success: true,
-    statusCode: httpStatus.OK,
-    message: ' product retrived  successfully',
-    data: result,
-  });
-});
 
 const deleteProduct = catchAsync(async (req, res) => {
-  const id = req.body;
-  const result = await productService.deleteProduct(id.id);
+  const id = req.params.id;
+  const result = await productService.deleteProduct(id);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -82,8 +72,13 @@ const deleteProductAfterOrder = catchAsync(async (req, res) => {
 });
 const updateProduct = catchAsync(async (req, res) => {
   const id = req.params.id;
+  const file = req.file;
   const reqbody = req.body;
-  const result = await productService.updateProductIntoDb(reqbody, id);
+  const result = await productService.updateProductIntoDb(
+    reqbody,
+    file as Express.Multer.File,
+    id,
+  );
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -107,7 +102,7 @@ export const productController = {
   getAllProductFromDb,
   createProduct,
   deleteProduct,
-  getProducts,
+
   updateProduct,
   getLastestProducts,
   deleteProductAfterOrder,

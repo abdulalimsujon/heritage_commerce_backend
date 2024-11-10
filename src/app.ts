@@ -6,6 +6,7 @@ import { gatewayRouter } from './app/modules/paymentGateway/gateway.route';
 import { userRouter } from './app/modules/user/user.route';
 import notFound from './app/middleware/notFound';
 import globalErrorHandler from './app/middleware/globalErrorHandler';
+import { categoryRouter } from './app/modules/category/category.routes';
 
 const app: Application = express();
 
@@ -18,7 +19,8 @@ app.use(
 );
 
 app.use('/api/v1/products', productRouter);
-app.use('/api/v1', gatewayRouter);
+app.use('/api/v1/categories', categoryRouter);
+app.use('/api/v1/gateway', gatewayRouter);
 app.use('/api/v1/users', userRouter);
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
